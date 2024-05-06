@@ -5,50 +5,55 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use GuzzleHttp\Client;
 use App\Models\Movies;
 
 class MoviesController extends Controller
 {
-  public function index()
+  public function obtenerGeneros()
   {
     try {
 
-      $movies = Movies::all();
+      $client = new Client();
 
-      if ($movies->isEmpty()) {
-        return response()->json(['message' => 'No se encontraron peliculas'], 404);
-      }
+      $response = $client->request('GET', 'https://api.themoviedb.org/3/genre/movie/list?language=es', [
+        'headers' => [
+          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTY5ZGE4MTAxOGUxOWFjMWFmYzg4OWFjOTU5NjJhYSIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o1_ppwrhoA-aHL5fBFAweq6CXF7WFx1yua0tVjvyxRM',
+          'accept' => 'application/json',
+        ],
+      ]);
+
       // Devolver una respuesta HTTP 200 OK
-      return response()->json(['message' => 'OK', 'data' => $movies], 200);
+      $data = json_decode($response->getBody()->getContents(), true);
+      return response()->json(['message' => 'OK', 'data' => $data], 200);
     } catch (\Throwable $e) {
       \Log::error('Error al hacer la solicitud a la API: ' . $e->getMessage());
       return response()->json(['message' => 'Ocurrió un error interno en el servidor.'], 500);
     }
   }
-  /**
-   * Muestra la información de una película por su ID.
-   *
-   * @param int $id El ID de la película.
-   *
-   * @return response JSON de la data o novedad
-   */
-  public function show(int $id)
+
+  public function obtenerPeliculas()
   {
     try {
-      //
-      $movie = Movies::find($id);
 
-      if (!$movie) {
-        return response()->json(['message' => 'No se encontro la pelicula.'], 404);
-      }
+      $client = new Client();
 
+      $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/now_playing?language=es&page=1', [
+        'headers' => [
+          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTY5ZGE4MTAxOGUxOWFjMWFmYzg4OWFjOTU5NjJhYSIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o1_ppwrhoA-aHL5fBFAweq6CXF7WFx1yua0tVjvyxRM',
+          'accept' => 'application/json',
+        ],
+      ]);
+      
       // Devolver una respuesta HTTP 200 OK
-      return response()->json(['message' => 'OK', 'data' => $movie], 200);
-    } catch (\Exeption $e) {
+      $data = json_decode($response->getBody()->getContents(), true);
+      return response()->json(['message' => 'OK', 'data' => $data], 200);
+    } catch (\Throwable $e) {
       \Log::error('Error al hacer la solicitud a la API: ' . $e->getMessage());
       return response()->json(['message' => 'Ocurrió un error interno en el servidor.'], 500);
     }
   }
+  
   public function store(Request $request)
   {
     try {
