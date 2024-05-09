@@ -14,7 +14,7 @@ Esta es una API de Laravel diseñada para proporcionar acceso a información rel
 1. Clona el repositorio a tu máquina local:
 
     ```bash
-    git clone https://github.com/tu-usuario/proyecto-laravel-cine.git
+    git clone https://github.com/cristianlosada/cinema-API.git
     ```
 
 2. Accede al directorio del proyecto:
