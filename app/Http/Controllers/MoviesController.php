@@ -18,7 +18,7 @@ class MoviesController extends Controller
 
       $response = $client->request('GET', 'https://api.themoviedb.org/3/genre/movie/list?language=es', [
         'headers' => [
-          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTY5ZGE4MTAxOGUxOWFjMWFmYzg4OWFjOTU5NjJhYSIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o1_ppwrhoA-aHL5fBFAweq6CXF7WFx1yua0tVjvyxRM',
+          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NTVkYWFkMjRmYWJmYjMxY2EwNzcxZTQwODZiYWFmNyIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jBGd5R4hMCFJ2XdLEFXIOF1nGvcZLoLIanAthIvhSXM',
           'accept' => 'application/json',
         ],
       ]);
@@ -40,7 +40,7 @@ class MoviesController extends Controller
 
       $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/now_playing?language=es&page=1', [
         'headers' => [
-          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTY5ZGE4MTAxOGUxOWFjMWFmYzg4OWFjOTU5NjJhYSIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.o1_ppwrhoA-aHL5fBFAweq6CXF7WFx1yua0tVjvyxRM',
+          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NTVkYWFkMjRmYWJmYjMxY2EwNzcxZTQwODZiYWFmNyIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jBGd5R4hMCFJ2XdLEFXIOF1nGvcZLoLIanAthIvhSXM',
           'accept' => 'application/json',
         ],
       ]);
@@ -50,7 +50,7 @@ class MoviesController extends Controller
       return response()->json(['message' => 'OK', 'data' => $data], 200);
     } catch (\Throwable $e) {
       \Log::error('Error al hacer la solicitud a la API: ' . $e->getMessage());
-      return response()->json(['message' => 'Ocurrió un error interno en el servidor.'], 500);
+      return response()->json(['message' => 'Ocurrió un error interno en el servidor.'.$e->getMessage()], 500);
     }
   }
   
@@ -89,7 +89,7 @@ class MoviesController extends Controller
       // Manejar el error y registrar el mensaje de error en el archivo de registro
       \Log::error('Error al crear película: ' . $e->getMessage());
       // Devolver una respuesta HTTP 500 Internal Server Error
-      return response()->json(['message' => 'Ocurrió un error interno en el servidor.'], 500);
+      return response()->json(['message' => 'Ocurrió un error interno en el servidor.'.$e->getMessage()], 500);
     }
   }
 }
