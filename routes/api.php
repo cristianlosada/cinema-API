@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\ProductosConfiteriaController;
+use App\Http\Controllers\TeatrosController;
 
 // forma de acceder a las rutas agrupadas del proyecto
 // Route::controller(MoviesController::class)->group(function () {
@@ -27,4 +28,10 @@ Route::controller(ProductosConfiteriaController::class)->group(function () {
     Route::post('/crear-confiteria',    'store');
     Route::get('/consultar-confiterias',    'obtenerConfiteria');
     Route::get('/consultar-confiteria/{id}',    'obtenerConfiteriaId');
+})->middleware('sanctum');
+
+Route::controller(TeatrosController::class)->group(function () {
+    Route::post('/crear-teatro',    'store');
+    Route::get('/consultar-teatros',    'obtenerTeatros');
+    Route::get('/consultar-teatro/{id}',    'obtenerTeatroId');
 })->middleware('sanctum');
