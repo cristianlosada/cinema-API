@@ -22,12 +22,14 @@ use App\Http\Controllers\TeatrosController;
 Route::controller(MoviesController::class)->group(function () {
     Route::get('/listar-generos',    'obtenerGeneros');
     Route::get('/listar-peliculas',  'obtenerPeliculas');
+    Route::get('/listar-pelicula/{id}',  'obtenerPelicula');
 })->middleware('sanctum');
 
 Route::controller(ProductosConfiteriaController::class)->group(function () {
-    Route::post('/crear-confiteria',    'store');
-    Route::get('/consultar-confiterias',    'obtenerConfiteria');
-    Route::get('/consultar-confiteria/{id}',    'obtenerConfiteriaId');
+    Route::post('/crear-confiteria', 'store');
+    Route::get('/consultar-confiterias', 'obtenerConfiteria');
+    Route::get('/consultar-confiteria/{id}', 'obtenerConfiteriaId');
+    Route::get('/consultar-combos', 'obtenerCombos');
 })->middleware('sanctum');
 
 Route::controller(TeatrosController::class)->group(function () {

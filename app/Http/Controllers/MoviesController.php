@@ -53,6 +53,28 @@ class MoviesController extends Controller
       return response()->json(['message' => 'Ocurrió un error interno en el servidor.'.$e->getMessage()], 500);
     }
   }
+
+  public function obtenerPelicula($id)
+  {
+    try {
+
+      $client = new Client();
+
+      $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/'.$id.'?language=es', [
+        'headers' => [
+          'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NTVkYWFkMjRmYWJmYjMxY2EwNzcxZTQwODZiYWFmNyIsInN1YiI6IjY1ZTY5NmMxY2VkZTY5MDE4NWJkZDk3ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jBGd5R4hMCFJ2XdLEFXIOF1nGvcZLoLIanAthIvhSXM',
+          'accept' => 'application/json',
+        ],
+      ]);
+      
+      // Devolver una respuesta HTTP 200 OK
+      $data = json_decode($response->getBody()->getContents(), true);
+      return response()->json(['message' => 'OK', 'data' => $data], 200);
+    } catch (\Throwable $e) {
+      \Log::error('Error al hacer la solicitud a la API: ' . $e->getMessage());
+      return response()->json(['message' => 'Ocurrió un error interno en el servidor.'.$e->getMessage()], 500);
+    }
+  }
   
   public function store(Request $request)
   {

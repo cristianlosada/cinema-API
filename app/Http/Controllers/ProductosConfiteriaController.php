@@ -69,4 +69,16 @@ class ProductosConfiteriaController extends Controller
             return response()->json(['message' => 'Ocurrió un error interno en el servidor.'.$e->getMessage()], 500);
         }
     }
+
+    public function obtenerCombos()
+    {
+        try {
+            $combos = ProductosConfiteria::where('categoria', '=', 'combos')->get();
+
+            return response()->json(['message' => 'OK', 'data' => $combos], 200);
+        } catch (\Throwable $e) {
+            \Log::error('Error al hacer la solicitud a la API: ' . $e->getMessage());
+            return response()->json(['message' => 'Ocurrió un error interno en el servidor.'], 500);
+        }
+    }
 }
